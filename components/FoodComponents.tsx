@@ -32,10 +32,13 @@ const PizzaComponents = ({ selectedCategory }) => {
     return matchesCategory && matchesSearch;
   });
 
-  const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.itemBox}>
+  const renderItem = ({ item, index }) => (
+    <TouchableOpacity style={[styles.itemBox, index % 2 === 0 ? styles.leftItem : styles.rightItem]}>
       <View style={styles.itemContainer}>
-        <Image source={{ uri: item.image }} style={styles.image} />
+        <Image 
+          source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS4xExZTgxfq82CxlScW0z6dyEw21kwAfQEQ&s' }} 
+          style={styles.image} 
+        />
         <Text style={styles.name}>{item.name}</Text>
         <Text style={styles.price}>${item.price}</Text>
       </View>
@@ -92,6 +95,12 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     alignItems: "center",
+  },
+  leftItem: {
+    marginTop: 10, // Adjust the margin to create space for left column items
+  },
+  rightItem: {
+    marginTop: 50, // Adjust the margin to push down right column items more
   },
   itemContainer: {
     alignItems: "center",
