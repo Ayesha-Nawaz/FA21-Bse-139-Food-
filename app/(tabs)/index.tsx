@@ -1,31 +1,23 @@
-import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import React, { useState } from 'react';
+import { StyleSheet, SafeAreaView } from 'react-native';
+import Navbar from '../../components/Navbar';
+import PizzaComponents from '@/components/FoodComponents';
 
 export default function TabOneScreen() {
+  // State to manage the selected category
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Navbar onSelectCategory={setSelectedCategory} />
+      <PizzaComponents selectedCategory={selectedCategory} />
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+    backgroundColor: '#fff',
   },
 });
