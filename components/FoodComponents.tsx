@@ -32,15 +32,15 @@ const PizzaComponents = ({ selectedCategory }) => {
     return matchesCategory && matchesSearch;
   });
 
-  const renderItem = ({ item, index }) => (
-    <TouchableOpacity style={[styles.itemBox, index % 2 === 0 ? styles.leftItem : styles.rightItem]}>
+  const renderItem = ({ item }) => (
+    <TouchableOpacity style={styles.itemBox}>
       <View style={styles.itemContainer}>
         <Image 
-          source={{ uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS4xExZTgxfq82CxlScW0z6dyEw21kwAfQEQ&s' }} 
+          source={{ uri: item.image || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS4xExZTgxfq82CxlScW0z6dyEw21kwAfQEQ&s' }} // Use product image or a placeholder
           style={styles.image} 
         />
         <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.price}>${item.price}</Text>
+        {item.price && <Text style={styles.price}>${item.price.toFixed(2)}</Text>} 
       </View>
     </TouchableOpacity>
   );
@@ -53,13 +53,17 @@ const PizzaComponents = ({ selectedCategory }) => {
         value={searchQuery}
         onChangeText={setSearchQuery} // Update search query on change
       />
-      <FlatList
-        numColumns={2}
-        data={filteredData}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderItem}
-        contentContainerStyle={styles.flatListContainer}
-      />
+      {filteredData.length > 0 ? (
+        <FlatList
+          numColumns={2}
+          data={filteredData}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+          contentContainerStyle={styles.flatListContainer}
+        />
+      ) : (
+        <Text>No matching products found.</Text> // Message when no products match search
+      )}
     </View>
   );
 };
@@ -73,9 +77,15 @@ const styles = StyleSheet.create({
     height: 40,
     borderColor: '#ccc',
     borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 10,
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    marginBottom: 15,
+    backgroundColor: '#f0f0f0',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   flatListContainer: {
     paddingBottom: 20,
@@ -95,12 +105,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     alignItems: "center",
-  },
-  leftItem: {
-    marginTop: 10, // Adjust the margin to create space for left column items
-  },
-  rightItem: {
-    marginTop: 50, // Adjust the margin to push down right column items more
   },
   itemContainer: {
     alignItems: "center",

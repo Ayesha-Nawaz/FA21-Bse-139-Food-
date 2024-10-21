@@ -14,7 +14,7 @@ export default function Navbar({ onSelectCategory }) {
         style={styles.navbaritem}
         onPress={() => onSelectCategory('fresh-produce')}
       >
-        <Text>Fresh-</Text>
+        <Text>Fresh</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
